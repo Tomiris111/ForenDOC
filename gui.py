@@ -137,6 +137,81 @@ def show_chart():
     except Exception as e:
         messagebox.showerror("Chart Error", str(e))
 
+def show_security_policy_window():
+    policy_text = """
+Security Policy for ForenDOC
+
+This application complies with internationally recognized digital forensics and cybersecurity principles, based on standards such as ISO/IEC 27001, ISO/IEC 27037:2012, and NIST SP 800-101 Rev.1, to ensure responsible handling of recovered data, operational safety, and evidence integrity.
+
+1. Deployment and Execution
+
+The application runs locally via terminal on Windows systems.
+No installation is required beyond a Python environment.
+No internet connection is used.
+All machine learning models are embedded and work fully offline.
+
+2. Read-Only Forensic Operation
+
+The tool operates in read-only mode throughout analysis and recovery.
+Memory dumps or disk images are scanned without alteration.
+No editing, rewriting, or direct changes to source evidence are permitted.
+Aligned with ISO/IEC 27037:2012.
+
+3. Fragment Recovery and Processing
+
+The system identifies and extracts .docx documents based on file signatures.
+From recovered .docx files, it extracts embedded images including .jpg, .jpeg, .png, .gif, and .bmp.
+This process ensures segregation of evidence and avoids contamination.
+Aligned with ISO/IEC 27041:2015.
+
+4. No Persistent Logging or User Tracking
+
+No logs, tracking data, or operator identifiers are stored, either temporarily or permanently.
+This ensures that the investigator's identity or actions are not exposed or misused.
+Aligned with ISO/IEC 27001 and 27002.
+
+5. Local Machine Learning-Based Classification
+
+The system uses embedded ML models to analyze document content without uploading any data.
+A prohibited keyword scanner evaluates possible sensitive topics and generates a local JSON report.
+Aligned with ISO/IEC 27018.
+
+6. Secure Output and Export
+
+Users can export results as JSON files, saved only to user-specified folders.
+No output is stored outside of user control or beyond the session.
+
+Referenced Standards
+
+ISO/IEC 27001: Information Security Management Systems
+ISO/IEC 27002: Information Security Controls
+ISO/IEC 27037:2012: Guidelines for handling digital evidence
+ISO/IEC 27041:2015: Ensuring forensic method suitability
+NIST SP 800-101 Rev.1: Guidelines for mobile and memory device forensics
+
+If you have questions about our policy or wish to report a security issue, please contact us.
+"""
+    window = tk.Toplevel()
+    window.title("Security Policy & Contact")
+    window.geometry("700x500")
+    window.configure(bg=BG_COLOR)
+
+    tk.Label(window, text="Security Policy", font=("Segoe UI", 14, "bold"), bg=BG_COLOR, fg=FG_COLOR).pack(pady=(15, 5))
+    frame = tk.Frame(window, bg=BG_COLOR)
+    frame.pack(expand=True, fill="both", padx=20, pady=(0, 10))
+
+    scrollbar = tk.Scrollbar(frame)
+    scrollbar.pack(side="right", fill="y")
+
+    text_widget = tk.Text(frame, wrap="word", yscrollcommand=scrollbar.set, bg="white", fg="black", font=FONT)
+    text_widget.insert(tk.END, policy_text)
+    text_widget.config(state="disabled")
+    text_widget.pack(side="left", fill="both", expand=True)
+
+    scrollbar.config(command=text_widget.yview)
+    tk.Label(window, text="Contact Us", font=("Segoe UI", 12, "bold"), bg=BG_COLOR, fg=FG_COLOR).pack(pady=(5, 0))
+    tk.Label(window, text="📧 tommyzh531@gmail.com", font=FONT, bg=BG_COLOR, fg="blue").pack(pady=(0, 10))
+
 def download_report():
     report_file = "forensic_report.json"
     if not os.path.exists(report_file):
@@ -188,6 +263,9 @@ def launch_gui():
     add_side_button("Show Keywords", show_keywords)
     add_side_button("Show Chart", show_chart)
     add_side_button("Download Report", download_report)
+    add_side_button("Security Policy", show_security_policy_window)
+    
+
 
     log_box_frame = tk.Frame(root, bg=BG_COLOR)
     log_box_frame.pack(pady=10)
